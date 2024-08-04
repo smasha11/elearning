@@ -1,0 +1,27 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+.bg-hero {
+  background-image: url("https://img.freepik.com/premium-photo/boy-with-glasses-that-is-wearing-glasses_1128647-7006.jpg?w=740");
+}
+@import url("https://fonts.googleapis.com/css2?family=Platypi:ital,wght@0,300..800;1,300..800&display=swap");
+.fonts {
+  font-family: "Platypi", serif;
+  font-weight: 600;
+}
+@import url("https://fonts.googleapis.com/css2?family=Platypi:ital,wght@0,300..800;1,300..800&family=Questrial&display=swap");
+.font2 {
+  font-family: "Questrial", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+.color-mix {
+  background: linear-gradient(to right, blue, pink, purple);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
