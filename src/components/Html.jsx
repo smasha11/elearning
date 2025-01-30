@@ -1,207 +1,192 @@
-export default function Html() {
-  return (
-    <div className="container mx-auto px-4 py-8 md:px-6 md:py-12 lg:px-8 lg:py-16">
-      <div className="prose prose-lg max-w-3xl mx-auto">
-        <h1 className="text-4xl font-extrabold">Welcome to FutureDev!</h1>
-        <p className="text-xl font-semibold mt-4">
-          We're excited to have you here and thank you for choosing our platform
-          to learn HTML. In this module, we'll cover the basics of HTML,
-          including its structure, common tags, text formatting, tables, forms,
-          semantic HTML, media, and accessibility. Let’s dive in!
-        </p>
-        <div className="grid gap-6 mt-8">
-          <div className="border border-blue-500 rounded-lg shadow-lg overflow-hidden">
-            <div className="bg-blue-500 text-white p-4">
-              <h2 className="text-xl font-semibold">HTML Basics</h2>
-            </div>
-            <div className="p-4">
-              <ul className="list-disc pl-5">
-                <li>
-                  <strong>What is HTML?</strong> HTML (Hypertext Markup
-                  Language) is the standard markup language used to create and
-                  structure web pages.
-                </li>
-                <li>
-                  <strong>Basic structure of an HTML document:</strong> The
-                  basic structure includes the <code>&lt;html&gt;</code>,{" "}
-                  <code>&lt;head&gt;</code>, and <code>&lt;body&gt;</code> tags.
-                </li>
-                <li>
-                  <strong>Common HTML tags:</strong> <code>&lt;div&gt;</code>,{" "}
-                  <code>&lt;span&gt;</code>, <code>&lt;p&gt;</code>,{" "}
-                  <code>&lt;a&gt;</code>, <code>&lt;img&gt;</code>, and more.
-                </li>
-              </ul>
-            </div>
-          </div>
+import React, { useState } from "react";
 
-          <div className="border border-purple-500 rounded-lg shadow-lg overflow-hidden">
-            <div className="bg-purple-500 text-white p-4">
-              <h2 className="text-xl font-semibold">Text Formatting</h2>
-            </div>
-            <div className="p-4">
-              <ul className="list-disc pl-5">
-                <li>
-                  <strong>Headings:</strong> <code>&lt;h1&gt;</code> to{" "}
-                  <code>&lt;h6&gt;</code> tags for different heading levels.
-                </li>
-                <li>
-                  <strong>Paragraphs:</strong> <code>&lt;p&gt;</code> tag for
-                  paragraphs of text.
-                </li>
-                <li>
-                  <strong>Emphasis:</strong> <code>&lt;em&gt;</code> and{" "}
-                  <code>&lt;strong&gt;</code> tags for emphasis.
-                </li>
-                <li>
-                  <strong>Lists:</strong> <code>&lt;ul&gt;</code> for unordered
-                  lists and <code>&lt;ol&gt;</code> for ordered lists, with{" "}
-                  <code>&lt;li&gt;</code> for list items.
-                </li>
-                <li>
-                  <strong>Links:</strong> <code>&lt;a&gt;</code> tag for
-                  creating hyperlinks.
-                </li>
-                <li>
-                  <strong>Images:</strong> <code>&lt;img&gt;</code> tag for
-                  inserting images.
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border border-pink-500 rounded-lg shadow-lg overflow-hidden">
-            <div className="bg-pink-500 text-white p-4">
-              <h2 className="text-xl font-semibold">Tables</h2>
-            </div>
-            <div className="p-4">
-              <ul className="list-disc pl-5">
-                <li>
-                  <strong>Table structure:</strong> <code>&lt;table&gt;</code>,{" "}
-                  <code>&lt;tr&gt;</code>, <code>&lt;td&gt;</code>, and{" "}
-                  <code>&lt;th&gt;</code> tags.
-                </li>
-                <li>
-                  <strong>Table attributes:</strong> <code>colspan</code>,{" "}
-                  <code>rowspan</code>, and more.
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border border-blue-500 rounded-lg shadow-lg overflow-hidden">
-            <div className="bg-blue-500 text-white p-4">
-              <h2 className="text-xl font-semibold">
-                Forms and Input Elements
-              </h2>
-            </div>
-            <div className="p-4">
-              <ul className="list-disc pl-5">
-                <li>
-                  <strong>Form structure:</strong> <code>&lt;form&gt;</code>{" "}
-                  tag.
-                </li>
-                <li>
-                  <strong>Input types:</strong> <code>&lt;input&gt;</code>,{" "}
-                  <code>&lt;textarea&gt;</code>, <code>&lt;button&gt;</code>,{" "}
-                  <code>&lt;select&gt;</code>, and <code>&lt;option&gt;</code>.
-                </li>
-                <li>
-                  <strong>Form attributes:</strong> <code>action</code>,{" "}
-                  <code>method</code>, <code>name</code>, and more.
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border border-purple-500 rounded-lg shadow-lg overflow-hidden">
-            <div className="bg-purple-500 text-white p-4">
-              <h2 className="text-xl font-semibold">Semantic HTML</h2>
-            </div>
-            <div className="p-4">
-              <ul className="list-disc pl-5">
-                <li>
-                  <strong>HTML5 semantic elements:</strong>{" "}
-                  <code>&lt;header&gt;</code>, <code>&lt;footer&gt;</code>,{" "}
-                  <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>,{" "}
-                  <code>&lt;aside&gt;</code>, <code>&lt;nav&gt;</code>, and
-                  more.
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border border-pink-500 rounded-lg shadow-lg overflow-hidden">
-            <div className="bg-pink-500 text-white p-4">
-              <h2 className="text-xl font-semibold">Media</h2>
-            </div>
-            <div className="p-4">
-              <ul className="list-disc pl-5">
-                <li>
-                  <strong>Embedding videos:</strong> <code>&lt;video&gt;</code>{" "}
-                  tag.
-                </li>
-                <li>
-                  <strong>Embedding audio:</strong> <code>&lt;audio&gt;</code>{" "}
-                  tag.
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border border-blue-500 rounded-lg shadow-lg overflow-hidden">
-            <div className="bg-blue-500 text-white p-4">
-              <h2 className="text-xl font-semibold">HTML5 Features</h2>
-            </div>
-            <div className="p-4">
-              <ul className="list-disc pl-5">
-                <li>
-                  <strong>New input types:</strong> <code>date</code>,{" "}
-                  <code>email</code>, <code>range</code>, and more.
-                </li>
-                <li>
-                  <strong>Geolocation API and Canvas API.</strong>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border border-purple-500 rounded-lg shadow-lg overflow-hidden">
-            <div className="bg-purple-500 text-white p-4">
-              <h2 className="text-xl font-semibold">Accessibility</h2>
-            </div>
-            <div className="p-4">
-              <ul className="list-disc pl-5">
-                <li>
-                  <strong>ARIA roles and attributes for accessibility.</strong>
-                </li>
-                <li>
-                  <strong>Semantic HTML for better accessibility.</strong>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border border-pink-500 rounded-lg shadow-lg overflow-hidden">
-            <div className="bg-pink-500 text-white p-4">
-              <h2 className="text-xl font-semibold">SEO Basics</h2>
-            </div>
-            <div className="p-4">
-              <ul className="list-disc pl-5">
-                <li>
-                  <strong>
-                    Metadata in the <code>&lt;head&gt;</code> section.
-                  </strong>
-                </li>
-              </ul>
-            </div>
-          </div>
+const Html = ({ cart, onAddToCart, onRemoveFromCart }) => {
+  const [courses, setCourses] = useState([
+    {
+      id: 1,
+      name: "HTML",
+      color: "blue",
+      price: 0, // Set price to 0
+      image:
+        "https://img.freepik.com/free-photo/person-front-computer-working-html_23-2150040425.jpg?t=st=1734001108~exp=1734004708~hmac=61a6d1152174be75b963adba57aa0e8643c0daa304c8f2765e4ebdd10c530dd6&w=740",
+      content: (
+        <div>
+          <h3 className="text-xl font-semibold">Introduction to HTML</h3>
+          <p className="mt-2">
+            HTML is the standard language for creating web pages. It structures
+            the content on the web.
+          </p>
+          <ul className="mt-4 list-disc pl-5">
+            <li>
+              <strong>Tags:</strong> Learn about different HTML tags like
+              <code>&lt;h1&gt;</code>, <code>&lt;div&gt;</code>,{" "}
+              <code>&lt;p&gt;</code>.
+            </li>
+            <li>
+              <strong>Attributes:</strong> Explore attributes like{" "}
+              <code>class</code>,<code>id</code>, and more.
+            </li>
+            <li>
+              <strong>Forms:</strong> Learn how to create forms using{" "}
+              <code>&lt;form&gt;</code>,<code>&lt;input&gt;</code>, and other
+              elements.
+            </li>
+          </ul>
         </div>
-        <p className="mt-8">
-          We hope this overview helps you get started with HTML. Let us know if
-          you have any questions!
+      ),
+    },
+    {
+      id: 2,
+      name: "JavaScript",
+      color: "pink",
+      price: 0, // Set price to 0
+      image:
+        "https://img.freepik.com/premium-photo/css-javascript-html-usage-monitor-closeup-function-source-code-abstract-it-technology-background-software-source-code_372999-1057.jpg?ga=GA1.1.841413721.1720715939&semt=ais_hybrid",
+      content: (
+        <div>
+          <h3 className="text-xl font-semibold">Introduction to JavaScript</h3>
+          <p className="mt-2">
+            JavaScript is a programming language used to create dynamic web
+            content.
+          </p>
+          <ul className="mt-4 list-disc pl-5">
+            <li>
+              <strong>Variables:</strong> Learn how to declare variables using{" "}
+              <code>let</code>,<code>const</code>, and <code>var</code>.
+            </li>
+            <li>
+              <strong>Functions:</strong> Understand how to create and use
+              functions in JavaScript.
+            </li>
+            <li>
+              <strong>Events:</strong> Learn how to handle user interactions
+              with JavaScript events.
+            </li>
+          </ul>
+        </div>
+      ),
+    },
+    {
+      id: 3,
+      name: "React",
+      color: "pink",
+      price: 0, // Set price to 0
+      image:
+        "https://img.freepik.com/premium-vector/ui-ux-agency-icon_990672-239.jpg?ga=GA1.1.841413721.1720715939&semt=ais_hybrid",
+      content: (
+        <div>
+          <h3 className="text-xl font-semibold">Introduction to React</h3>
+          <p className="mt-2">
+            React is a JavaScript library for building user interfaces.
+          </p>
+          <ul className="mt-4 list-disc pl-5">
+            <li>
+              <strong>Components:</strong> Learn the basics of creating
+              components in React.
+            </li>
+            <li>
+              <strong>State and Props:</strong> Understand how to manage data
+              within components.
+            </li>
+            <li>
+              <strong>Hooks:</strong> Learn about React hooks like{" "}
+              <code>useState</code> and <code>useEffect</code>.
+            </li>
+          </ul>
+        </div>
+      ),
+    },
+    {
+      id: 4,
+      name: "Python",
+      color: "green",
+      price: 0, // Set price to 0
+      image:
+        "https://img.freepik.com/premium-photo/programing-python_1292885-18831.jpg?ga=GA1.1.841413721.1720715939&semt=ais_hybrid",
+      content: (
+        <div>
+          <h3 className="text-xl font-semibold">Introduction to Python</h3>
+          <p className="mt-2">
+            Python is a versatile programming language used in web development,
+            data science, and automation.
+          </p>
+          <ul className="mt-4 list-disc pl-5">
+            <li>
+              <strong>Variables:</strong> Learn about variables and data types
+              in Python.
+            </li>
+            <li>
+              <strong>Loops:</strong> Explore loops like <code>for</code> and{" "}
+              <code>while</code> to iterate over data.
+            </li>
+            <li>
+              <strong>Functions:</strong> Understand how to create and use
+              functions in Python.
+            </li>
+          </ul>
+        </div>
+      ),
+    },
+  ]);
+
+  return (
+    <div className="container mx-auto px-6 py-12 bg-gray-50">
+      <div className="prose prose-lg max-w-3xl mx-auto text-center mb-12">
+        <h1 className="text-4xl font-extrabold text-gray-800">
+          Welcome to FutureDev Dashboard
+        </h1>
+        <p className="text-xl font-semibold mt-4 text-gray-600">
+          Track your progress and master web development skills with our
+          courses.
         </p>
+      </div>
+
+      <div className="grid gap-8 mt-8 md:grid-cols-2 lg:grid-cols-3">
+        {courses.map((course) => {
+          const isInCart = cart?.some((item) => item.id === course.id);
+
+          return (
+            <div
+              key={course.id}
+              className={`border-2 border-${course.color}-500 rounded-lg shadow-lg overflow-hidden hover:shadow-2xl transform transition duration-300`}
+            >
+              <img
+                src={course.image}
+                alt={`${course.name} image`}
+                className="w-full h-48 object-cover"
+              />
+              <div
+                className={`bg-${course.color}-500 text-white p-5 flex justify-between items-center`}
+              >
+                <h2 className="text-xl font-semibold">{course.name} Course</h2>
+                <span className="text-lg font-bold">${course.price}</span>
+              </div>
+              <div className="p-6 bg-white">
+                {course.content}
+                <div className="mt-4 flex justify-between">
+                  {isInCart ? (
+                    <button
+                      onClick={() => onRemoveFromCart(course.id)}
+                      className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600 transition duration-300"
+                    >
+                      Remove from Cart
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => onAddToCart(course)}
+                      className="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600 transition duration-300"
+                    >
+                      Add to Cart
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
-}
+};
+
+export default Html;

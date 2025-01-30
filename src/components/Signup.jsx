@@ -1,184 +1,132 @@
-import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 
-export default function SignupComponent() {
-  const [tab, setTab] = useState("signup");
+const Signup = () => {
+  const [showModal, setShowModal] = useState(true);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [course, setCourse] = useState("html"); // Default to "html"
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+
+  const closeModal = () => setShowModal(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = { name, email, password, course };
-    await fetch("http://localhost:5000/users", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(user),
-    });
-    navigate("/Html");
+
+    const user = { username: name, email, password };
+
+    try {
+      const response = await fetch("http://127.0.0.1:5000/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setErrorMessage(
+          errorData.message || "Error occurred while signing up."
+        );
+      } else {
+        // Handle successful sign-up (e.g., redirect to login or show success message)
+        setShowModal(false); // Close the modal after success
+      }
+      navigate("/login");
+    } catch (error) {
+      setErrorMessage("Failed to connect to the server. Please try again.");
+    }
   };
 
   return (
-    <div className="flex min-h-[100vh] items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8 pt-24">
-        <div>
-          <img
-            src="https://img.freepik.com/free-photo/html-css-collage-concept_23-2150061955.jpg?uid=R155442167&ga=GA1.2.841413721.1720715939&semt=sph"
-            alt="Your Company"
-            width={48}
-            height={48}
-            className="mx-auto h-12 w-auto"
-          />
-          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-foreground">
-            Sign up or login
-          </h2>
-          <p className="mt-2 text-center text-sm text-muted-foreground">
-            to access your account
-          </p>
-        </div>
-        <div className="space-y-4">
-          <div className="flex w-full justify-center space-x-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          Create an Account
+        </h2>
+
+        {/* Error Message */}
+        {errorMessage && (
+          <div className="text-red-500 text-sm mb-4 text-center">
+            {errorMessage}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Full Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Email Address
+            </label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+
+          <div className="mt-6">
             <button
-              className={`px-4 py-2 ${
-                tab === "signup" ? "border-b-2 border-blue-500" : ""
-              }`}
-              onClick={() => setTab("signup")}
+              type="submit"
+              className="w-full py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition duration-200"
             >
               Sign Up
             </button>
-            <button
-              className={`px-4 py-2 ${
-                tab === "login" ? "border-b-2 border-blue-500" : ""
-              }`}
-              onClick={() => setTab("login")}
-            >
-              Login
-            </button>
           </div>
-          {tab === "signup" && (
-            <form className="space-y-4" onSubmit={handleSubmit}>
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-foreground"
-                >
-                  Name
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  placeholder="Name"
-                  required
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-2"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-foreground"
-                >
-                  Email address
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  placeholder="name@example.com"
-                  required
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-2"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-foreground"
-                >
-                  Password
-                </label>
-                <input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  required
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-2"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="course"
-                  className="block text-sm font-medium text-foreground"
-                >
-                  Select Course
-                </label>
-                <select
-                  id="course"
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-2"
-                  value={course}
-                  onChange={(e) => setCourse(e.target.value)}
-                >
-                  <option value="html">HTML</option>
-                  <option value="css">CSS</option>
-                  <option value="javascript">JavaScript</option>
-                  <option value="react">React</option>
-                </select>
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
-              >
-                Sign up
-              </button>
-            </form>
-          )}
-          {tab === "login" && (
-            <form className="space-y-4">
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-foreground"
-                >
-                  Email address
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  placeholder="name@example.com"
-                  required
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-2"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-foreground"
-                >
-                  Password
-                </label>
-                <input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  required
-                  className="mt-1 block w-full rounded-md border border-gray-300 p-2"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
-              >
-                Login
-              </button>
-            </form>
-          )}
+        </form>
+
+        <div className="mt-4 text-center">
+          <p className="text-sm">
+            Already have an account?{" "}
+            <NavLink to="/login" className="text-blue-600 hover:text-blue-700">
+              Login here
+            </NavLink>
+          </p>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default Signup;

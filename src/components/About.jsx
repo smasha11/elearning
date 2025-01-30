@@ -1,7 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import Event from "./Event";
 
 function About() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const [status, setStatus] = useState("");
+
+  // Handle input change
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }));
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("loading");
+
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:5000/contact", // Ensure this URL matches the Flask endpoint
+        formData
+      );
+      if (response.status === 201) {
+        setStatus("success");
+        setFormData({ name: "", email: "", message: "" });
+      }
+    } catch (error) {
+      console.error("Error submitting the form:", error.message);
+      setStatus("error");
+    }
+  };
+
   return (
     <div className="pt-24 pb-8">
       <section className="w-full relative h-[500px] overflow-hidden">
@@ -13,75 +51,100 @@ function About() {
         <div className="absolute inset-0 bg-black opacity-50 z-10" />
         <div className="h-full flex flex-col items-center justify-center text-center z-20 px-4 md:px-6">
           <div className="space-y-4">
-            <h1 className="">About Us</h1>
+            <h1>About Us</h1>
           </div>
         </div>
       </section>
 
       <div className="mt-0 bg-white text-black">
-        <section className="mb8 px 4 md:px-10">
-          <h2 className="fonts text-2xl font-semibold mb-2">Introduction</h2>
-          <p className="font2">
+        <section className="mb-8 px-4 md:px-10">
+          <h2 className="text-2xl font-semibold mb-2">Introduction</h2>
+          <p>
             When we started FutureDev Online Courses back in 2023, our goal was
             to give the people of northern Kenya and from all across the world
             the ability to learn the skills they’d need to succeed in this
-            modern century. We set out to create a new, interactive way of
-            learning — making it engaging, flexible, and accessible for as many
-            people as possible. Since then, we have helped hundreds of Somali
-            people worldwide unlock modern technical skills and reach their full
-            potential through code. There are two commitments we've made to the
-            world. We've been grounded by these since day one:
+            modern century...
           </p>
-          <ul className=" font2 list-disc list-inside ml-4 mt-2">
-            <li>
-              Increase access to high-quality education for everyone,
-              everywhere.
-            </li>
-            <li>Enhance teaching and learning through research.</li>
-          </ul>
-        </section>
-        <section className="mb-8 px-4 md:px-6">
-          <h2 className="fonts text-2xl font-semibold mb-2">Our Vision</h2>
-          <p className="font2">
-            To reach out to all Somali communities through knowledge and to be a
-            comprehensive online institute that offers quality-oriented
-            education and accredited certification.
-          </p>
-        </section>
-        <section className="mb-8 px-4 md:px-6">
-          <h2 className=" fonts text-2xl font-semibold mb-2">Our Mission</h2>
-          <p className="font2">
-            We want to create a world where anyone can build something
-            meaningful with technology, and everyone has the learning tools,
-            resources, and opportunities to do so. Code contains a world of
-            possibilities — all that’s required is the curiosity and drive to
-            learn. At FutureDev, we are dedicated to empowering all people,
-            regardless of where they are in their coding journeys, to continue
-            to learn, grow, and make an impact on the world around them.
-          </p>
-        </section>
-        <Event />
-        <section className="text-center mt-6">
-          <a href="https://www.facebook.com" className="text-blue-600 mx-2">
-            <i className="fab fa-facebook"></i> Facebook
-          </a>
-          <a href="https://www.instagram.com" className="text-pink-600 mx-2">
-            <i className="fab fa-instagram"></i> Instagram
-          </a>
-          <a href="https://www.twitter.com" className="text-blue-400 mx-2">
-            <i className="fab fa-twitter"></i> Twitter
-          </a>
-          <a href="https://github.com/smasha11" className="text-gray-900 mx-2">
-            <i className="fab fa-github"></i> GitHub
-          </a>
-          <a href="https://www.youtube.com" className="text-red-600 mx-2">
-            <i className="fab fa-youtube"></i> YouTube
-          </a>
         </section>
 
-        <footer className="text-center text-gray-600 mt-6">
-          © 2024 FutureDev. All rights reserved.
-        </footer>
+        <Event />
+
+        <section className="mb-10 px-4 md:px-6">
+          <h2 className="text-2xl font-semibold mb-4">Contact Us</h2>
+          <form
+            className="bg-gray-100 p-6 rounded-lg shadow-lg"
+            onSubmit={handleSubmit}
+          >
+            <div className="mb-4">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="mt-1 p-2 w-full border border-gray-300 rounded-lg"
+                placeholder="Your Name"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="mt-1 p-2 w-full border border-gray-300 rounded-lg"
+                placeholder="Your Email"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="message"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Message
+              </label>
+              <textarea
+                id="message"
+                value={formData.message}
+                onChange={handleChange}
+                rows="4"
+                className="mt-1 p-2 w-full border border-gray-300 rounded-lg"
+                placeholder="Your Message"
+                required
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              className="bg-blue-500 text-white py-2 px-4 rounded-lg"
+            >
+              Submit
+            </button>
+          </form>
+          {status === "loading" && (
+            <p className="text-blue-500 mt-4">Sending your message...</p>
+          )}
+          {status === "success" && (
+            <p className="text-green-500 mt-4">Message sent successfully!</p>
+          )}
+          {status === "error" && (
+            <p className="text-red-500 mt-4">
+              Failed to send message. Try again.
+            </p>
+          )}
+        </section>
       </div>
     </div>
   );

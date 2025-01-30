@@ -6,131 +6,154 @@ export default function Admin() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [course, setCourse] = useState("html"); // Default to "html"
 
   useEffect(() => {
     fetchUsers();
   }, []);
 
   const fetchUsers = async () => {
-    const response = await fetch("http://localhost:5000/users");
-    const data = await response.json();
-    setUsers(data);
+    try {
+      const response = await fetch("http://127.0.0.1:5000/signup");
+      if (!response.ok) {
+        throw new Error("Failed to fetch users");
+      }
+      const data = await response.json();
+      setUsers(data);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
   };
 
   const handleDelete = async (id) => {
-    await fetch(`http://localhost:5000/users/${id}`, {
-      method: "DELETE",
-    });
-    fetchUsers();
+    try {
+      const response = await fetch(`http://127.0.0.1:5000/users/${id}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        fetchUsers();
+      } else {
+        console.error("Failed to delete user");
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
   };
 
   const handleEdit = (user) => {
     setEditUser(user);
-    setName(user.name);
+    setName(user.username);
     setEmail(user.email);
-    setPassword(user.password);
-    setCourse(user.course);
+    setPassword("");
   };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    await fetch(`http://localhost:5000/users/${editUser.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password, course }), // Include course in the update
-    });
-    setEditUser(null);
-    fetchUsers();
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:5000/signup/${editUser.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username: name, email, password }),
+        }
+      );
+      if (response.ok) {
+        setEditUser(null);
+        fetchUsers();
+      } else {
+        console.error("Failed to update user");
+      }
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
   };
 
   return (
-    <div className="container mx-auto p-4 pt-20">
-      <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
+    <div className="container mx-auto p-6 pt-20">
+      <h1 className="text-3xl font-bold mb-6 text-center">Admin Dashboard</h1>
+
       {editUser && (
-        <form onSubmit={handleUpdate} className="mb-4">
-          <h2 className="text-xl mb-2">Edit User</h2>
-          <div className="mb-2">
-            <label className="block text-sm font-medium text-gray-700">
-              Name
-            </label>
+        <form
+          onSubmit={handleUpdate}
+          className="mb-6 bg-gray-100 p-4 rounded shadow-md max-w-md mx-auto"
+        >
+          <h2 className="text-xl font-semibold mb-4 text-center">Edit User</h2>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1">Name</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-gray-300 p-2"
+              className="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="Enter name"
             />
           </div>
-          <div className="mb-2">
-            <label className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1">Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-gray-300 p-2"
+              className="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="Enter email"
             />
           </div>
-          <div className="mb-2">
-            <label className="block text-sm font-medium text-gray-700">
-              Password
-            </label>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1">Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-gray-300 p-2"
+              className="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="Enter new password"
             />
           </div>
-          <div className="mb-2">
-            <label className="block text-sm font-medium text-gray-700">
-              Select Course
-            </label>
-            <select
-              value={course}
-              onChange={(e) => setCourse(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-gray-300 p-2"
+          <div className="flex justify-end space-x-2">
+            <button
+              type="button"
+              onClick={() => setEditUser(null)}
+              className="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded"
             >
-              <option value="html">HTML</option>
-              <option value="css">CSS</option>
-              <option value="javascript">JavaScript</option>
-              <option value="react">React</option>
-            </select>
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+            >
+              Update
+            </button>
           </div>
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            Update
-          </button>
         </form>
       )}
-      <table className="min-w-full bg-white shadow-md rounded-lg">
-        <thead>
+
+      <table className="min-w-full bg-white shadow-md rounded">
+        <thead className="bg-gray-800 text-white">
           <tr>
-            <th className="py-2 px-4 bg-gray-200">Name</th>
-            <th className="py-2 px-4 bg-gray-200">Email</th>
-            <th className="py-2 px-4 bg-gray-200">Course</th>
-            <th className="py-2 px-4 bg-gray-200">Actions</th>
+            <th className="py-2 px-4 text-left">Name</th>
+            <th className="py-2 px-4 text-left">Email</th>
+            <th className="py-2 px-4 text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
-              <td className="py-2 px-4 border-b">{user.name}</td>
-              <td className="py-2 px-4 border-b">{user.email}</td>
-              <td className="py-2 px-4 border-b">{user.course}</td>
-              <td className="py-2 px-4 border-b">
+          {users.map((user, index) => (
+            <tr
+              key={user.id}
+              className={`${
+                index % 2 === 0 ? "bg-gray-100" : "bg-white"
+              } hover:bg-gray-200`}
+            >
+              <td className="py-2 px-4">{user.username}</td>
+              <td className="py-2 px-4">{user.email}</td>
+              <td className="py-2 px-4 text-center space-x-2">
                 <button
                   onClick={() => handleEdit(user)}
-                  className="bg-pink-500 text-white px-2 py-1 rounded mr-2"
+                  className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-1 px-3 rounded"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDelete(user.id)}
-                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  className="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded"
                 >
                   Delete
                 </button>
